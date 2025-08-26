@@ -16,8 +16,15 @@ class Ticket extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title', 'description', 'type', 'status',
-        'assigned_to', 'resolution_text', 'resolved_by', 'resolved_at',
+        'title',
+        'description',
+        'type',
+        'status',
+        'assigned_to',
+        'resolution_text',
+        'resolved_by',
+        'resolved_at',
+        'created_by'
     ];
 
     protected $casts = [

@@ -45,6 +45,7 @@ class TicketController extends Controller
         $user = $request->user();
 
         $ticket = DB::transaction(function () use ($request, $user) {
+
             $ticket = Ticket::create([
                 'title'       => $request->validated()['title'],
                 'description' => $request->validated()['description'],
