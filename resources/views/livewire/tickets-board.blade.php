@@ -8,13 +8,13 @@
         <h3 class="font-semibold mb-3">ABIERTOS</h3>
         <div id="kanban-open" class="space-y-3 min-h-[200px] p-2 border rounded bg-gray-50 dark:bg-gray-800"
              data-status="open">
-            @foreach ($open as $t)
+            @foreach ($open as $ticket)
                 <div class="p-3 bg-white dark:bg-gray-700 rounded shadow-sm"
-                     data-ticket-id="{{ $t['id'] }}">
-                    <div class="text-sm font-semibold">{{ $t['title'] }}</div>
-                    <div class="text-xs opacity-70">Type: {{ $t['type'] }}</div>
-                    <div class="text-xs opacity-70">By: {{ $t['created_by'] }}</div>
-                    <a href="{{ route('tickets.show', $t['id']) }}" class="text-xs underline">Ver ticket</a>
+                     data-ticket-id="{{ $ticket['id'] }}">
+                    <div class="text-sm font-semibold">{{ $ticket['title'] }}</div>
+                    <div class="text-xs opacity-70">Tipo de problema: {{ $ticket['type'] }}</div>
+                    <div class="text-xs opacity-70">Creado por: {{$ticket['creator']['name'] }}</div>
+                    <a href="{{ route('tickets.show', $ticket['id']) }}" class="text-xs underline">Ver ticket</a>
                 </div>
             @endforeach
         </div>
@@ -25,13 +25,13 @@
         <h3 class="font-semibold mb-3">EN PROGRESO</h3>
         <div id="kanban-in-progress" class="space-y-3 min-h-[200px] p-2 border rounded bg-gray-50 dark:bg-gray-800"
              data-status="in_progress">
-            @foreach ($in_progress as $t)
+            @foreach ($in_progress as $ticket)
                 <div class="p-3 bg-white dark:bg-gray-700 rounded shadow-sm"
-                     data-ticket-id="{{ $t['id'] }}">
-                    <div class="text-sm font-semibold">{{ $t['title'] }}</div>
-                    <div class="text-xs opacity-70">Type: {{ $t['type'] }}</div>
-                    <div class="text-xs opacity-70">Assigned: {{ $t['assigned_to'] ?? '—' }}</div>
-                    <a href="{{ route('tickets.show', $t['id']) }}" class="text-xs underline">Ver ticket</a>
+                     data-ticket-id="{{ $ticket['id'] }}">
+                    <div class="text-sm font-semibold">{{ $ticket['title'] }}</div>
+                    <div class="text-xs opacity-70">Tipo de problema: {{ $ticket['type'] }}</div>
+                    <div class="text-xs opacity-70">Asignado a: {{ $ticket['assignee']['name'] ?? '—' }}</div>
+                    <a href="{{ route('tickets.show', $ticket['id']) }}" class="text-xs underline">Ver ticket</a>
                 </div>
             @endforeach
         </div>
@@ -42,12 +42,12 @@
         <h3 class="font-semibold mb-3">CERRADOS</h3>
         <div id="kanban-closed" class="space-y-3 min-h-[200px] p-2 border rounded bg-gray-50 dark:bg-gray-800"
              data-status="closed">
-            @foreach ($closed as $t)
+            @foreach ($closed as $ticket)
                 <div class="p-3 bg-white dark:bg-gray-700 rounded shadow-sm"
-                     data-ticket-id="{{ $t['id'] }}">
-                    <div class="text-sm font-semibold">{{ $t['title'] }}</div>
-                    <div class="text-xs opacity-70">Resuelto en fecha: {{ $t['resolved_at'] ?? '—' }}</div>
-                    <a href="{{ route('tickets.show', $t['id']) }}" class="text-xs underline">Ver ticket</a>
+                     data-ticket-id="{{ $ticket['id'] }}">
+                    <div class="text-sm font-semibold">{{ $ticket['title'] }}</div>
+                    <div class="text-xs opacity-70">Resuelto en fecha: {{ $ticket['resolved_at'] ?? '—' }}</div>
+                    <a href="{{ route('tickets.show', $ticket['id']) }}" class="text-xs underline">Ver ticket</a>
                 </div>
             @endforeach
         </div>

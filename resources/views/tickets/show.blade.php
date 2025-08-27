@@ -83,29 +83,50 @@
                     </div>
                 @endcan
 
-                <div>
-                    <h3 class="font-semibold mb-2">Change status</h3>
-                    <form method="POST" action="{{ route('tickets.status', $ticket) }}" class="flex gap-2">
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-1">
+                    <h3 class="text-base font-semibold text-gray-900">Cambiar estado</h3>
+                    <form method="POST" action="{{ route('tickets.status', $ticket) }}" class="mt-3 space-y-3">
                         @csrf @method('PATCH')
-                        <select name="status" class="border rounded p-2">
-                            <option value="open" @selected($ticket->status->value === 'open')>Open</option>
-                            <option value="in_progress" @selected($ticket->status->value === 'in_progress')>In Progress</option>
-                            <option value="closed" @selected($ticket->status->value === 'closed')>Closed</option>
+
+                        <label for="status" class="block text-sm font-medium text-gray-700">Estado</label>
+                        <select id="status" name="status"
+                                class="mt-1 block w-full rounded-lg border-gray-300 text-sm" required>
+                            <option value="open" @selected($ticket->status->value === 'open')>Abierto</option>
+                            <option value="in_progress" @selected($ticket->status->value === 'in_progress')>En progreso</option>
+                            <option value="closed" @selected($ticket->status->value === 'closed')>Cerrado</option>
                         </select>
-                        <button class="px-3 py-2 bg-blue-600 text-white rounded">Update</button>
+
+                        <button type="submit"
+                                class="mt-3 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+                            Actualizar estado
+                        </button>
                     </form>
                 </div>
 
-                <div>
-                    <h3 class="font-semibold mb-2">Descripción de la solución</h3>
-                    <form method="POST" action="{{ route('tickets.resolution.store', $ticket) }}" enctype="multipart/form-data" class="space-y-3">
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-1">
+                    <h3 class="text-base font-semibold text-gray-900">Descripción de la solución</h3>
+
+                    <form method="POST" action="{{ route('tickets.resolution.store', $ticket) }}" enctype="multipart/form-data" class="mt-3 space-y-4">
                         @csrf
-                        <textarea name="resolution_text" rows="5" class="w-full border rounded p-2" required>{{ old('resolution_text', $ticket->resolution_text) }}</textarea>
                         <div>
-                            <label class="block text-sm font-medium">Adjuntos de la solución (hasta 10 imágenes)</label>
-                            <input name="resolution_attachments[]" type="file" multiple accept="image/*">
+                            <label for="resolution_text" class="block text-sm font-medium text-gray-700">Detalle de la solución</label>
+                            <textarea id="resolution_text" name="resolution_text" rows="5"
+                                      class="mt-1 block w-full rounded-lg border-gray-300 text-sm p-2"
+                                      required>{{ old('resolution_text', $ticket->resolution_text) }}</textarea>
                         </div>
-                        <button class="px-3 py-2 bg-green-600 text-white rounded">Guardar solución</button>
+
+                        <div>
+                            <label for="resolution_attachments" class="block text-sm font-medium text-gray-700">
+                                Adjuntos de la solución (hasta 10 imágenes)
+                            </label>
+                            <input id="resolution_attachments" name="resolution_attachments[]" type="file" multiple accept="image/*"
+                                   class="mt-1 block w-full text-sm text-gray-700">
+                        </div>
+
+                        <button type="submit"
+                                class="mt-3 rounded-lg bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-700">
+                            Guardar solución
+                        </button>
                     </form>
                 </div>
             </div>

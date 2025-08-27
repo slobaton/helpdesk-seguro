@@ -38,11 +38,17 @@ class TicketsBoard extends Component
         $user = Auth::user();
 
         $allowed = ['open','in_progress','closed'];
+
         if (!in_array($newStatus, $allowed, true)) {
             return;
         }
 
         $ticket = Ticket::query()->findOrFail($ticketId);
+
+        if ($user->hasAnyRole(['Technician', 'Admin']) && is_null($ticket->assigned_to)) {
+            $this->authorize('assign', $ticket);
+            $ticket->assigned_to = $user->id;
+        }
 
         $this->authorize('changeStatus', $ticket);
 
@@ -67,7 +73,7 @@ class TicketsBoard extends Component
     {
         $user = Auth::user();
 
-        $base = Ticket::query()->visibleTo($user)->with(['creator','assignee']);
+        $base = Ticket::query()->visibleTo($user)->with(['creator:id,name','assignee:id,name']);
 
         $this->open = $base->clone()
             ->where('status', TicketStatus::OPEN)

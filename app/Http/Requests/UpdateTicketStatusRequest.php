@@ -10,6 +10,7 @@ class UpdateTicketStatusRequest extends FormRequest
     public function authorize(): bool
     {
         $ticket = $this->route('ticket');
+        dd($this->user()->can('changeStatus', $ticket));
         return $this->user()->can('changeStatus', $ticket);
     }
 
