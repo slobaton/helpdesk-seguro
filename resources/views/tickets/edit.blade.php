@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2>Edit Ticket #{{ $ticket->id }}</h2>
+        <h2>Editar Ticket #{{ $ticket->id }}</h2>
     </x-slot>
 
     <div class="py-6 max-w-3xl mx-auto">

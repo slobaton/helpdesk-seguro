@@ -19,7 +19,7 @@ class TicketStatusController extends Controller
         DB::transaction(function () use ($ticket, $newStatus, $request) {
             $ticket->status = $newStatus;
 
-            if ($newStatus === TicketStatus::Closed) {
+            if ($newStatus === TicketStatus::CLOSED) {
                 $ticket->resolved_by = $request->user()->id;
                 $ticket->resolved_at = now();
             } else {

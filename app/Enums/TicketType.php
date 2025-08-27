@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum TicketType: string
 {
-    case Service = 'service';
-    case Hardware = 'hardware';
-    case Software = 'software';
+    case SERVICE = 'service';
+    case HARDWARE = 'hardware';
+    case SOFTWARE = 'software';
 }

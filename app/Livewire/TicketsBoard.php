@@ -47,7 +47,7 @@ class TicketsBoard extends Component
         $this->authorize('changeStatus', $ticket);
 
         $ticket->status = TicketStatus::from($newStatus);
-        if ($ticket->status === TicketStatus::Closed) {
+        if ($ticket->status === TicketStatus::CLOSED) {
             $ticket->resolved_by = $user->id;
             $ticket->resolved_at = now();
         } else {
@@ -70,19 +70,19 @@ class TicketsBoard extends Component
         $base = Ticket::query()->visibleTo($user)->with(['creator','assignee']);
 
         $this->open = $base->clone()
-            ->where('status', TicketStatus::Open)
+            ->where('status', TicketStatus::OPEN)
             ->latest()
             ->take(50)
             ->get()
             ->toArray();
         $this->in_progress = $base->clone()
-            ->where('status', TicketStatus::InProgress)
+            ->where('status', TicketStatus::IN_PROGRESS)
             ->latest()
             ->take(50)
             ->get()
             ->toArray();
         $this->closed = $base->clone()
-            ->where('status', TicketStatus::Closed)
+            ->where('status', TicketStatus::CLOSED)
             ->latest()
             ->take(50)
             ->get()

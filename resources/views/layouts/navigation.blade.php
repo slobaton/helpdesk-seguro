@@ -11,21 +11,18 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links (left) -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    {{-- My Tickets: visible for all authenticated users --}}
-                    <x-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
-                        {{ __('My Tickets') }}
+                    <x-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.index')">
+                        {{ __('Mis Tickets') }}
                     </x-nav-link>
 
-                    {{-- New Ticket: only if policy allows creation --}}
                     @can('create', \App\Models\Ticket::class)
                         <x-nav-link :href="route('tickets.create')" :active="request()->routeIs('tickets.create')">
-                            {{ __('New Ticket') }}
+                            {{ __('Nuevo Ticket') }}
                         </x-nav-link>
                     @endcan
 
-                    {{-- Kanban: only Admin or Technician --}}
+                    {{-- Kanban --}}
                     @hasanyrole('Admin|Technician')
                     <x-nav-link :href="route('tickets.board')" :active="request()->routeIs('tickets.board')">
                         {{ __('Kanban Board') }}
@@ -34,7 +31,7 @@
                 </div>
             </div>
 
-            <!-- Right Side: Role badges + User Dropdown -->
+            <!--Role badges + User Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 {{-- Role badges --}}
                 <div class="mr-4 hidden md:flex items-center gap-1">
@@ -64,7 +61,7 @@
                     <x-slot name="content">
                         <!-- Profile -->
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Perfil') }}
                         </x-dropdown-link>
 
                         <!-- Logout -->
@@ -72,7 +69,7 @@
                             @csrf
                             <x-dropdown-link :href="route('logout')"
                                              onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Cerrar sesión') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>

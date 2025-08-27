@@ -78,9 +78,13 @@ class Ticket extends Model
         return $query->where('created_by', $user->id);
     }
 
-
     protected function isPending(): Attribute
     {
-        return Attribute::get(fn () => $this->status !== TicketStatus::Closed);
+        return Attribute::get(fn () => $this->status !== TicketStatus::CLOSED);
+    }
+
+    public function getStatusKeyAttribute(): string
+    {
+        return $this->status instanceof \BackedEnum ? $this->status->value : (string) $this->status;
     }
 }

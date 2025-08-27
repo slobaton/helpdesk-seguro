@@ -7,6 +7,7 @@ use App\Enums\TicketStatus;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Ticket;
+use App\Models\User;
 use App\Services\AttachmentService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,7 +31,6 @@ class TicketController extends Controller
             ->visibleTo($user)
             ->latest()
             ->paginate(12);
-
         return view('tickets.index', compact('tickets'));
     }
 
@@ -50,17 +50,16 @@ class TicketController extends Controller
                 'title'       => $request->validated()['title'],
                 'description' => $request->validated()['description'],
                 'type'        => $request->validated()['type'],
-                'status'      => TicketStatus::Open,
+                'status'      => TicketStatus::OPEN,
                 'created_by'  => $user->id,
             ]);
 
-            // Optional multiple problem attachments on creation
             $files = $request->file('problem_attachments', []);
             foreach ($files as $file) {
                 $this->attachmentService->storeUploadedFile(
                     $ticket,
                     $file,
-                    AttachmentStage::Problem,
+                    AttachmentStage::PROBLEM,
                     $user
                 );
             }
@@ -79,13 +78,31 @@ class TicketController extends Controller
     {
         $this->authorize('view', $ticket);
         $ticket->load(['creator', 'assignee', 'resolver', 'attachments']);
-        return view('tickets.show', compact('ticket'));
+
+        $assignees = User::role(['Admin','Technician'])
+            ->select('id','name','email')
+            ->orderBy('name')
+            ->get();
+
+        return view('tickets.show', compact('ticket'), compact('assignees'));
     }
 
     public function edit(Ticket $ticket)
     {
-        $this->authorize('update', $ticket);
-        return view('tickets.edit', compact('ticket'));
+        $assigneesQuery = User::role(['Admin', 'Technician'])
+            ->select('id', 'name', 'email')
+            ->orderBy('name');
+
+        if (auth()->user()->hasRole('Technician') && !auth()->user()->hasRole('Admin')) {
+            $assigneesQuery->where('id', auth()->id());
+        }
+
+        $assignees = $assigneesQuery->get();
+
+        return view('tickets.edit', [
+            'ticket' => $ticket->load('assignee'),
+            'assignees' => $assignees,
+        ]);
     }
 
     public function update(UpdateTicketRequest $request, Ticket $ticket): RedirectResponse

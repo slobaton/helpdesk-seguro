@@ -4,6 +4,6 @@ namespace App\Enums;
 
 enum AttachmentStage: string
 {
-    case Problem = 'problem';
-    case Resolution = 'resolution';
+    case PROBLEM = 'problem';
+    case RESOLUTION = 'resolution';
 }

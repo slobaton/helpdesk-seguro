@@ -28,7 +28,7 @@ class TicketResolutionController extends Controller
                 $this->attachmentService->storeUploadedFile(
                     $ticket,
                     $file,
-                    AttachmentStage::Resolution,
+                    AttachmentStage::RESOLUTION,
                     $request->user()
                 );
             }
