@@ -60,16 +60,26 @@ class AuthSeeder extends Seeder
         );
         $adminUser->syncRoles(['Admin']);
 
-        $techUser = User::firstOrCreate(
+        $techUser1 = User::firstOrCreate(
             ['email' => 'tech@example.com'],
-            ['name' => 'Tech User', 'password' => Hash::make('Password123!')]
+            ['name' => 'Tecnico1', 'password' => Hash::make('Password123!')]
         );
-        $techUser->syncRoles(['Technician']);
+        $techUser2 = User::firstOrCreate(
+            ['email' => 'tech2@example.com'],
+            ['name' => 'Tecnico2', 'password' => Hash::make('Password123!')]
+        );
+        $techUser1->syncRoles(['Technician']);
+        $techUser2->syncRoles(['Technician']);
 
-        $reqUser = User::firstOrCreate(
-            ['email' => 'requester@example.com'],
-            ['name' => 'Requester User', 'password' => Hash::make('Password123!')]
+        $reqUser1 = User::firstOrCreate(
+            ['email' => 'cristian@example.com'],
+            ['name' => 'Cristian Montecinos', 'password' => Hash::make('Password123!')]
         );
-        $reqUser->syncRoles(['Requester']);
+        $reqUser2 = User::firstOrCreate(
+            ['email' => 'vianca@example.com'],
+            ['name' => 'Vianca contreras', 'password' => Hash::make('Password123!')]
+        );
+        $reqUser1->syncRoles(['Requester']);
+        $reqUser2->syncRoles(['Requester']);
     }
 }
